@@ -59,11 +59,13 @@ cd kernel
 
 for i in ${OEM_DIR_LIST}; do
 	git add ${i}
-	git commit -s -m "${i}: Import OEM Changes"
+	git commit -s -m "${i}: Import OEM Changes
+* Rebase with branch ${2}."
 done
 
 git add .
-git commit -s -m "Import Remaining OEM Changes"
+git commit -s -m "Import Remaining OEM Changes
+* Rebase with branch ${2}."
 
 cd -
 
