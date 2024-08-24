@@ -53,19 +53,66 @@ for i in ${OEM_DIR_LIST}; do
 	rm -rf ${i}
 done
 
-cd -
-cp -r oem/* kernel/
-cd kernel
+DIFFPATHS=(
+    "Documentation/"
+    "arch/arm/boot/dts/"
+    "arch/arm64/boot/dts/"
+    "arch/arm/configs/"
+    "arch/arm64/configs/"
+    "arch/"
+    "block/"
+    "crypto/"
+    "drivers/android/"
+    "drivers/base/"
+    "drivers/block/"
+    "drivers/media/platform/msm/"
+    "drivers/char/"
+    "drivers/clk/"
+    "drivers/cpufreq/"
+    "drivers/cpuidle/"
+    "drivers/gpu/drm/"
+    "drivers/gpu/"
+    "drivers/input/touchscreen/"
+    "drivers/input/"
+    "drivers/leds/"
+    "drivers/misc/"
+    "drivers/mmc/"
+    "drivers/nfc/"
+    "drivers/power/"
+    "drivers/scsi/"
+    "drivers/soc/"
+    "drivers/thermal/"
+    "drivers/usb/"
+    "drivers/video/"
+    "drivers/"
+    "firmware/"
+    "fs/"
+    "include/"
+    "kernel/"
+    "mm/"
+    "net/"
+    "security/"
+    "sound/"
+    "techpack/audio/"
+    "techpack/camera/"
+    "techpack/display/"
+    "techpack/stub/"
+    "techpack/video/"
+    "techpack/"
+    "tools/"
+)
 
-for i in ${OEM_DIR_LIST}; do
-	git add ${i}
-	git commit -s -m "${i}: Import OEM Changes
-* Rebase with branch ${2}."
+for DIFF in ${DIFFPATHS[@]}; do
+    [[ -d $DIFF ]] && git add $DIFF -f > /dev/null 2>&1
+    git -c "user.name=carlodandan" -c "user.email=carlodandan.personal@proton.me" commit -sm "Added OEM modifications in $DIFF.
+* Rebase with branch ${2}." > /dev/null 2>&1
 done
 
-git add .
-git commit -s -m "Import Remaining OEM Changes
-* Rebase with branch ${2}."
+# Remaining OEM modifications
+git add --all -f > /dev/null 2>&1
+git -c "user.name=carlodandan" -c "user.email=carlodandan.personal@proton.me" commit -sm "Add remaining OEM modifications.
+* Rebase with branch ${2}." > /dev/null 2>&1
+
 
 cd -
 
